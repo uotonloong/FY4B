@@ -1,29 +1,76 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
+    <meta charset="UTF-8">
     <meta http-equiv="refresh" content="300">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Background</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>FY-4B 卫星云图</title>
+
+    <!--
+        修改记录（便于后续 DIY）
+
+        相对最初的 index.html：
+        1. 修正背景色写法：将无效的 “# 000000” 改为黑色 #000。
+        2. 将 CSS 背景图改为 <img>，直接引用原始 FY-4B JPEG 地址。
+        3. 增加电脑、手机视口适配；图片使用 object-fit: contain，保持比例并显示完整画面，空白处为黑色。
+        4. 保留每 300 秒自动刷新。
+        5. 增加中文页面标题、语言标记和图片替代文字。
+
+        本次修改：
+        6. 图片显示区域宽度改为视口宽度的 96%，左右至少预留约 2% 黑边；若屏幕与图片比例差异较大，黑边会更宽，以完整显示图片。
+        7. 可通过下方 --image-width 调整图片宽度：调小会增加左右黑边，调大则减少黑边。
+
+        图片由浏览器直接加载和缩放以适配屏幕；本页面不会重新编码或压缩原始 JPEG。
+    -->
     <style>
-        body {
-            background-color: # 000000;
-            margin: 0;
+        :root {
+            /* 图片最大显示宽度；例如 94vw 留白更宽，98vw 留白更窄。 */
+            --image-width: 96vw;
         }
-        
-        div {
-            background: url(https://img.nsmc.org.cn/CLOUDIMAGE/FY4B/AGRI/GCLR/FY4B_DISK_GCLR.JPG);
-            background-repeat: no-repeat;
-            background-position: center center;
-            background-size: contain;
-            height: 100vh; 
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
             width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 100%;
+            margin: 0;
+            background: #000;
+        }
+
+        body {
+            overflow: hidden;
+        }
+
+        main {
+            position: fixed;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            width: 100%;
+            height: 100vh;
+            height: 100dvh;
+            background: #000;
+        }
+
+        img {
+            display: block;
+            width: var(--image-width);
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
         }
     </style>
 </head>
 <body>
-    <div></div>
+    <main>
+        <img
+            src="https://img.nsmc.org.cn/CLOUDIMAGE/FY4B/AGRI/GCLR/FY4B_DISK_GCLR.JPG"
+            alt="风云四号B星全圆盘卫星云图"
+        >
+    </main>
 </body>
 </html>
+
